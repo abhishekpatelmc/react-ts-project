@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 
 interface Purchase {
   type: string;
@@ -68,12 +68,7 @@ function App() {
       <div className="flex space-x-5">
         <button
           onClick={() =>
-            buyPurchase({
-              type: "Factory",
-              rate: 1,
-              cost: 5,
-              color: "bg-blue-600",
-            })
+            buyPurchase({ type: "Factory", rate: 1, cost: 5, color: "blue" })
           }
           className="px-4 py-2 bg-green-600 rounded"
         >
@@ -85,7 +80,7 @@ function App() {
               type: "Enterprise",
               rate: 3,
               cost: 10,
-              color: "bg-gray-600",
+              color: "gray",
             })
           }
           className="px-4 py-2 bg-purple-600 rounded"
@@ -98,7 +93,7 @@ function App() {
               type: "Small Business",
               rate: 5,
               cost: 25,
-              color: "bg-yellow-600",
+              color: "yellow",
             })
           }
           className="px-4 py-2 bg-yellow-600 rounded"
@@ -111,7 +106,7 @@ function App() {
               type: "Big Business",
               rate: 10,
               cost: 50,
-              color: "bg-green-600",
+              color: "green",
             })
           }
           className="px-4 py-2 bg-blue-600 rounded"
@@ -124,7 +119,7 @@ function App() {
               type: "Corporation",
               rate: 20,
               cost: 100,
-              color: "bg-red-600",
+              color: "red",
             })
           }
           className="px-4 py-2 bg-red-600 rounded"
