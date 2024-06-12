@@ -1,84 +1,56 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 
 interface Purchase {
-  type:
-    | "factory"
-    | "enterprise"
-    | "small-business"
-    | "big-business"
-    | "corporation";
+  type: string;
+  rate: number;
+  cost: number;
+  color: string;
 }
 
 function App() {
   const [count, setCount] = useState<number>(0);
   const [purchases, setPurchases] = useState<Purchase[]>([]);
+  const [customPurchase, setCustomPurchase] = useState<Purchase>({
+    type: "",
+    rate: 0,
+    cost: 0,
+    color: "",
+  });
+  const [customPurchaseTypes, setCustomPurchaseTypes] = useState<Purchase[]>(
+    []
+  );
 
-  const buyFactory = () => {
-    if (count < 5) {
-      return;
-    }
-    setCount(count - 5);
-    setPurchases([...purchases, { type: "factory" }]);
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setCustomPurchase({
+      ...customPurchase,
+      [name]: name === "rate" || name === "cost" ? Number(value) : value,
+      color: name === "color" ? value : customPurchase.color,
+    });
   };
 
-  const buyEnterprise = () => {
-    if (count < 10) {
-      return;
-    }
-    setCount(count - 10);
-    setPurchases([...purchases, { type: "enterprise" }]);
+  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setCustomPurchaseTypes([...customPurchaseTypes, customPurchase]);
+    setCustomPurchase({ type: "", rate: 0, cost: 0, color: "" });
   };
 
-  const buySmallBusiness = () => {
-    if (count < 25) {
-      return;
+  const buyPurchase = (purchase: Purchase) => {
+    if (count >= purchase.cost) {
+      setCount(count - purchase.cost);
+      setPurchases([...purchases, purchase]);
+    } else {
+      alert(`Not enough points to buy a ${purchase.type}!`);
     }
-    setCount(count - 25);
-    setPurchases([...purchases, { type: "small-business" }]);
-  };
-
-  const buyBigBusiness = () => {
-    if (count < 50) {
-      return;
-    }
-    setCount(count - 50);
-    setPurchases([...purchases, { type: "big-business" }]);
-  };
-
-  const buyCorporation = () => {
-    if (count < 100) {
-      return;
-    }
-    setCount(count - 100);
-    setPurchases([...purchases, { type: "corporation" }]);
   };
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const factoryCount = purchases.filter(
-        (purchase) => purchase.type === "factory"
-      ).length;
-      const enterpriseCount = purchases.filter(
-        (purchase) => purchase.type === "enterprise"
-      ).length;
-      const smallBusinessCount = purchases.filter(
-        (purchase) => purchase.type === "small-business"
-      ).length;
-      const bigBusinessCount = purchases.filter(
-        (purchase) => purchase.type === "big-business"
-      ).length;
-      const corporationCount = purchases.filter(
-        (purchase) => purchase.type === "corporation"
-      ).length;
-      setCount(
-        (prevCount) =>
-          prevCount +
-          factoryCount +
-          enterpriseCount * 3 +
-          smallBusinessCount * 5 +
-          bigBusinessCount * 10 +
-          corporationCount * 20
+      const totalPoints = purchases.reduce(
+        (acc, purchase) => acc + purchase.rate,
+        0
       );
+      setCount((prevCount) => prevCount + totalPoints);
     }, 1000);
 
     return () => clearInterval(interval);
@@ -95,61 +67,141 @@ function App() {
       </div>
 
       <div className="flex space-x-5">
-        <button onClick={buyFactory} className="px-4 py-2 bg-green-600 rounded">
+        <button
+          onClick={() =>
+            buyPurchase({
+              type: "Factory",
+              rate: 1,
+              cost: 5,
+              color: "bg-blue-600",
+            })
+          }
+          className="px-4 py-2 bg-green-600 rounded"
+        >
           Buy 1 Factory
         </button>
         <button
-          onClick={buyEnterprise}
+          onClick={() =>
+            buyPurchase({
+              type: "Enterprise",
+              rate: 3,
+              cost: 10,
+              color: "bg-gray-600",
+            })
+          }
           className="px-4 py-2 bg-purple-600 rounded"
         >
           Buy 1 Enterprise
         </button>
         <button
-          onClick={buySmallBusiness}
+          onClick={() =>
+            buyPurchase({
+              type: "Small Business",
+              rate: 5,
+              cost: 25,
+              color: "bg-yellow-600",
+            })
+          }
           className="px-4 py-2 bg-yellow-600 rounded"
         >
           Buy 1 Small Business
         </button>
         <button
-          onClick={buyBigBusiness}
+          onClick={() =>
+            buyPurchase({
+              type: "Big Business",
+              rate: 10,
+              cost: 50,
+              color: "bg-green-600",
+            })
+          }
           className="px-4 py-2 bg-blue-600 rounded"
         >
           Buy 1 Big Business
         </button>
         <button
-          onClick={buyCorporation}
+          onClick={() =>
+            buyPurchase({
+              type: "Corporation",
+              rate: 20,
+              cost: 100,
+              color: "bg-red-600",
+            })
+          }
           className="px-4 py-2 bg-red-600 rounded"
         >
           Buy 1 Corporation
         </button>
+        {customPurchaseTypes.map((purchase, index) => (
+          <button
+            key={index}
+            onClick={() => buyPurchase(purchase)}
+            className={`px-4 py-2 rounded border-2 border-gray-600 ${purchase.color}`}
+          >
+            Buy 1 {purchase.type}
+          </button>
+        ))}
       </div>
 
       <div className="flex flex-wrap space-x-2">
         {purchases.map((purchase, index) => (
-          <div
-            key={index}
-            className={`w-36 h-36 ${
-              purchase.type === "factory" && "bg-blue-600"
-            } ${purchase.type === "enterprise" && "bg-gray-600"} ${
-              purchase.type === "small-business" && "bg-yellow-600"
-            } ${purchase.type === "big-business" && "bg-green-600"} ${
-              purchase.type === "corporation" && "bg-red-600"
-            } 
-            }`}
-          ></div>
+          <div key={index} className={`w-36 h-36 ${purchase.color}`}>
+            <span className="">{purchase.type}</span>
+          </div>
         ))}
       </div>
 
-      <form>
-        <label>Rate</label>\
-        <input type="number" />
-        <label>cost</label>
-        <input type="number" />
-        <label>color</label>
-        <input type="text" />
-        <label>Name</label>
-        <input type="text" />
-        <button type="submit">Submit factory plans!</button>
+      <form onSubmit={handleFormSubmit} className="flex flex-col space-y-2">
+        <label>
+          Rate
+          <input
+            type="number"
+            name="rate"
+            value={customPurchase.rate}
+            onChange={handleInputChange}
+            required
+            className="ml-2 p-1 border rounded"
+          />
+        </label>
+        <label>
+          Cost
+          <input
+            type="number"
+            name="cost"
+            value={customPurchase.cost}
+            onChange={handleInputChange}
+            required
+            className="ml-2 p-1 border rounded"
+          />
+        </label>
+        <label>
+          Color
+          <input
+            type="text"
+            name="color"
+            value={customPurchase.color}
+            onChange={handleInputChange}
+            required
+            className="ml-2 p-1 border rounded"
+          />
+        </label>
+        <label>
+          Name
+          <input
+            type="text"
+            name="type"
+            value={customPurchase.type}
+            onChange={handleInputChange}
+            required
+            className="ml-2 p-1 border rounded"
+          />
+        </label>
+        <button
+          type="submit"
+          className="px-4 py-2 bg-blue-600 rounded text-white mt-2"
+        >
+          Submit factory plans!
+        </button>
       </form>
     </div>
   );
