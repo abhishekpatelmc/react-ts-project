@@ -70,7 +70,7 @@ function App() {
           onClick={() =>
             buyPurchase({ type: "Factory", rate: 1, cost: 5, color: "blue" })
           }
-          className="px-4 py-2 bg-green-600 rounded"
+          className="px-4 py-2 bg-blue-600 rounded"
         >
           Buy 1 Factory
         </button>
@@ -83,7 +83,7 @@ function App() {
               color: "gray",
             })
           }
-          className="px-4 py-2 bg-purple-600 rounded"
+          className="px-4 py-2 bg-gray-600 rounded"
         >
           Buy 1 Enterprise
         </button>
@@ -93,7 +93,7 @@ function App() {
               type: "Small Business",
               rate: 5,
               cost: 25,
-              color: "yellow",
+              color: "orange",
             })
           }
           className="px-4 py-2 bg-yellow-600 rounded"
@@ -109,7 +109,7 @@ function App() {
               color: "green",
             })
           }
-          className="px-4 py-2 bg-blue-600 rounded"
+          className="px-4 py-2 bg-green-600 rounded"
         >
           Buy 1 Big Business
         </button>
@@ -138,11 +138,11 @@ function App() {
         ))}
       </div>
 
-      <div className="flex flex-wrap space-x-2">
+      <div className="flex flex-wrap">
         {purchases.map((purchase, index) => (
           <div
             key={index}
-            className="w-36 h-36"
+            className="w-36 h-36 m-5 flex justify-center items-center rounded"
             style={{ backgroundColor: purchase.color }}
           >
             <span className="text-white">{purchase.type}</span>
@@ -150,54 +150,54 @@ function App() {
         ))}
       </div>
 
-      <form onSubmit={handleFormSubmit} className="flex flex-col space-y-2">
+      <form onSubmit={handleFormSubmit} className="flex space-x-5 items-center">
         <label>
-          Rate
+          Rate:
           <input
             type="number"
             name="rate"
             value={customPurchase.rate}
             onChange={handleInputChange}
             required
-            className="ml-2 p-1 border rounded"
+            className="ml-2 p-1 border rounded text-gray-800"
           />
         </label>
         <label>
-          Cost
+          Cost:
           <input
             type="number"
             name="cost"
             value={customPurchase.cost}
             onChange={handleInputChange}
             required
-            className="ml-2 p-1 border rounded"
+            className="ml-2 p-1 border rounded text-gray-800"
           />
         </label>
         <label>
-          Color
+          Color:
           <input
             type="text"
             name="color"
             value={customPurchase.color}
             onChange={handleInputChange}
             required
-            className="ml-2 p-1 border rounded"
+            className="ml-2 p-1 border rounded text-gray-800"
           />
         </label>
         <label>
-          Name
+          Name:
           <input
             type="text"
             name="type"
             value={customPurchase.type}
             onChange={handleInputChange}
             required
-            className="ml-2 p-1 border rounded"
+            className="ml-2 p-1 border rounded text-gray-800"
           />
         </label>
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-600 rounded text-white mt-2"
+          className="px-4 py-1 bg-blue-600 rounded text-white"
         >
           Submit factory plans!
         </button>
