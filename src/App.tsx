@@ -25,7 +25,6 @@ function App() {
     setCustomPurchase({
       ...customPurchase,
       [name]: name === "rate" || name === "cost" ? Number(value) : value,
-      color: name === "color" ? value : customPurchase.color,
     });
   };
 
@@ -136,7 +135,8 @@ function App() {
           <button
             key={index}
             onClick={() => buyPurchase(purchase)}
-            className={`px-4 py-2 rounded border-2 border-gray-600 ${purchase.color}`}
+            className={`px-4 py-2 rounded`}
+            style={{ backgroundColor: purchase.color }}
           >
             Buy 1 {purchase.type}
           </button>
@@ -145,8 +145,12 @@ function App() {
 
       <div className="flex flex-wrap space-x-2">
         {purchases.map((purchase, index) => (
-          <div key={index} className={`w-36 h-36 ${purchase.color}`}>
-            <span className="">{purchase.type}</span>
+          <div
+            key={index}
+            className="w-36 h-36"
+            style={{ backgroundColor: purchase.color }}
+          >
+            <span className="text-white">{purchase.type}</span>
           </div>
         ))}
       </div>
