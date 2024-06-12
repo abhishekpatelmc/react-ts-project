@@ -138,18 +138,6 @@ function App() {
         ))}
       </div>
 
-      <div className="flex flex-wrap">
-        {purchases.map((purchase, index) => (
-          <div
-            key={index}
-            className="w-36 h-36 m-5 flex justify-center items-center rounded"
-            style={{ backgroundColor: purchase.color }}
-          >
-            <span className="text-white">{purchase.type}</span>
-          </div>
-        ))}
-      </div>
-
       <form onSubmit={handleFormSubmit} className="flex space-x-5 items-center">
         <label>
           Rate:
@@ -202,6 +190,18 @@ function App() {
           Submit factory plans!
         </button>
       </form>
+
+      <div className="flex flex-wrap">
+        {purchases.map((purchase, index) => (
+          <div
+            key={index}
+            className="w-36 h-36 m-5 flex justify-center items-center rounded"
+            style={{ backgroundColor: purchase.color }}
+          >
+            <span className="text-white">{purchase.type}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
