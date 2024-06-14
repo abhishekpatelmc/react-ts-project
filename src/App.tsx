@@ -56,16 +56,16 @@ function App() {
   }, [purchases]);
 
   return (
-    <div className="flex flex-col justify-center items-center h-screen space-y-10 text-xl">
-      <div className="flex space-x-10 items-center">
+    <div className="flex flex-col justify-center items-center h-screen space-y-10 text-xl p-5 lg:p-0">
+      <div className="flex space-x-10 items-center flex-wrap">
         <button
           onClick={() => setCount(count + 1)}
           className="w-36 h-36 bg-red-600 rounded-full"
         ></button>
-        <p>{count} points</p>
+        <p className="text-center">{count} points</p>
       </div>
 
-      <div className="flex space-x-5">
+      <div className="lg:flex lg:space-x-5 grid gap-5 flex-wrap justify-center">
         <button
           onClick={() =>
             buyPurchase({ type: "Factory", rate: 1, cost: 5, color: "blue" })
@@ -138,7 +138,10 @@ function App() {
         ))}
       </div>
 
-      <form onSubmit={handleFormSubmit} className="flex space-x-5 items-center">
+      <form
+        onSubmit={handleFormSubmit}
+        className="lg:flex lg:space-x-5 grid gap-5 items-center flex-wrap justify-center"
+      >
         <label>
           Rate:
           <input
@@ -191,7 +194,7 @@ function App() {
         </button>
       </form>
 
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap justify-center">
         {purchases.map((purchase, index) => (
           <div
             key={index}
